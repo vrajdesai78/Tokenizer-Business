@@ -2,6 +2,7 @@ package com.rohan.tokenizerbusiness;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -12,30 +13,24 @@ import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.text.Html;
-import android.view.ContextMenu;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.TextView;
-import android.widget.Toast;
-import android.widget.Toolbar;
 
 import com.firebase.ui.firestore.FirestoreRecyclerAdapter;
 import com.firebase.ui.firestore.FirestoreRecyclerOptions;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.android.material.bottomnavigation.BottomNavigationMenu;
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
-import com.google.firebase.firestore.QueryDocumentSnapshot;
-import com.google.firebase.firestore.QuerySnapshot;
-
-import org.w3c.dom.Text;
 
 public class Dashboard extends AppCompatActivity {
 
@@ -44,17 +39,44 @@ public class Dashboard extends AppCompatActivity {
     private RecyclerView bookinglist;
     private String place_name;
     private TextView nobooking, nameofplace;
+    BottomNavigationView bmv;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_dashboard);
 
+        bmv = findViewById(R.id.bottom_navigation);
+
+        bmv.setSelectedItemId(R.id.page_1);
+
+        bmv.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
+            @Override
+            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+                switch(item.getItemId()){
+                    case R.id.page_2:
+                        startActivity(new Intent(getApplicationContext(), UserDetails.class));
+                        overridePendingTransition(0,0);
+                        return true;
+
+                    case R.id.page_1:
+                        return true;
+                }
+                return false;
+            }
+        });
         nobooking = findViewById(R.id.nobooking);
         nameofplace = findViewById(R.id.name_of_place);
 
-        getSupportActionBar().setTitle(Html.fromHtml("<font color='#000'>Tokenizer Business </font>"));
-        getSupportActionBar().setBackgroundDrawable(new ColorDrawable(Color.parseColor("#EFDA11")));
+        Toolbar toolbar = findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(false);
+
+        toolbar.getOverflowIcon().setColorFilter(Color.BLACK , PorterDuff.Mode.SRC_ATOP);
+
+        getSupportActionBar().setTitle(Html.fromHtml("<font color='#000000'>Tokenizer Business </font>"));
+        getSupportActionBar().setBackgroundDrawable(new ColorDrawable(Color.parseColor("#00000000")));
 
 
         firebaseFirestore = FirebaseFirestore.getInstance();
@@ -125,6 +147,7 @@ public class Dashboard extends AppCompatActivity {
                 if(getItemCount() == 0)
                 {
                     nobooking.setVisibility(View.VISIBLE);
+
                 }
                 else{
                     nobooking.setVisibility(View.INVISIBLE);
@@ -170,7 +193,7 @@ public class Dashboard extends AppCompatActivity {
         public BookingViewHolder(@NonNull View itemView) {
             super(itemView);
             name = itemView.findViewById(R.id.name);
-            email = itemView.findViewById(R.id.email);
+            email = itemView.findViewById(R.id.oTime);
             booking_timing = itemView.findViewById(R.id.booking_time);
         }
     }

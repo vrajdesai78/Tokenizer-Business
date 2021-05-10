@@ -4,29 +4,32 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.app.ProgressDialog;
 import android.content.ContentResolver;
 import android.content.Intent;
 import android.graphics.Color;
-import android.graphics.PorterDuff;
 import android.net.Uri;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
+import android.view.ContextMenu;
+import android.view.MenuInflater;
 import android.view.View;
 import android.webkit.MimeTypeMap;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
+import com.google.android.material.textfield.TextInputLayout;
+import com.google.android.material.timepicker.MaterialTimePicker;
+import com.google.android.material.timepicker.TimeFormat;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentReference;
@@ -35,6 +38,7 @@ import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 
+import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -48,35 +52,51 @@ public class RegisterDetails extends AppCompatActivity implements AdapterView.On
     private ImageView profile;
     private Uri imageUri;
     private String cat;
+    private AutoCompleteTextView atv;
+    MaterialTimePicker materialTimePicker;
+    TextInputLayout t1, t2;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register_details);
 
-        getSupportActionBar().hide();
+        atv = findViewById(R.id.firmCategory);
+        String[] ctr = getResources().getStringArray(R.array.category);
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,
+                android.R.layout.simple_spinner_dropdown_item, ctr);
+//        spinner.setAdapter(adapter);
+        atv.setAdapter(adapter);
+
+
+
+//        getSupportActionBar().hide();
 
 //        firmCategory = findViewById(R.id.firmCategory);
 
-        Spinner spinner = findViewById(R.id.firmCategory);
-        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
-                R.array.category, android.R.layout.simple_spinner_item);
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        spinner.setPrompt("Choose Category");
-        spinner.getBackground().setColorFilter(getResources().getColor(R.color.black), PorterDuff.Mode.SRC_ATOP);
-        spinner.setAdapter(adapter);
-        spinner.setOnItemSelectedListener(this);
+//        MenuInflater inflater = getMenuInflater();
+//        inflater.inflate(R.menu.select_category, );
+//        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
+//                R.array.category, android.R.layout.simple_spinner_item);
+//        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+//        spinner.setPrompt("Choose Category");
+//        spinner.getBackground().setColorFilter(getResources().getColor(R.color.black), PorterDuff.Mode.SRC_ATOP);
+//        spinner.setAdapter(adapter);
+//        spinner.setOnItemSelectedListener(this);
 
         Address = findViewById(R.id.address);
         open_time = findViewById(R.id.oTime);
         close_time = findViewById(R.id.cTime);
-        registerBtn = findViewById(R.id.register_button);
+        registerBtn = findViewById(R.id.nextButton);
         profile = findViewById(R.id.uploadProfile);
+        t1 = findViewById(R.id.text_field_2);
+        t2 = findViewById(R.id.text_field_3);
+
 
         name = getIntent().getStringExtra("firmName");
         email = getIntent().getStringExtra("Email");
         password = getIntent().getStringExtra("Password");
-
 
         profile.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -96,7 +116,7 @@ public class RegisterDetails extends AppCompatActivity implements AdapterView.On
                 }
                 else {
 //                    Toast.makeText(RegisterDetails.this, ""+email+"  "+password, Toast.LENGTH_SHORT).show();
-                    registerBusiness(name, email, password, cat,
+                    registerBusiness(name, email, password, atv.getText().toString(),
                             Address.getText().toString(), open_time.getText().toString(),
                             close_time.getText().toString());
                 }
@@ -104,7 +124,66 @@ public class RegisterDetails extends AppCompatActivity implements AdapterView.On
         });
 
 
+        open_time.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Calendar mcurrentTime = Calendar.getInstance();
+                int hour = mcurrentTime.get(Calendar.HOUR_OF_DAY);
+                int minute = mcurrentTime.get(Calendar.MINUTE);
+//                mTimePicker.show(getSupportFragmentManager(), "TIME_PICKER");
+                materialTimePicker = new MaterialTimePicker.Builder()
+                        .setTimeFormat(TimeFormat.CLOCK_12H)
+                        .setHour(hour)
+                        .setMinute(minute)
+                        .build();
+
+                materialTimePicker.show(getSupportFragmentManager(), "Time_Picker");
+                materialTimePicker.addOnPositiveButtonClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        open_time.setText(materialTimePicker.getHour() + " : " + materialTimePicker.getMinute());
+                    }
+                });
+            }
+        });
+
+        close_time.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Calendar mcurrentTime = Calendar.getInstance();
+                int hour = mcurrentTime.get(Calendar.HOUR_OF_DAY);
+                int minute = mcurrentTime.get(Calendar.MINUTE);
+//                mTimePicker.show(getSupportFragmentManager(), "TIME_PICKER");
+                materialTimePicker = new MaterialTimePicker.Builder()
+                        .setTimeFormat(TimeFormat.CLOCK_12H)
+                        .setHour(hour)
+                        .setMinute(minute)
+                        .build();
+
+                materialTimePicker.show(getSupportFragmentManager(), "Time_Picker");
+                materialTimePicker.addOnPositiveButtonClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        close_time.setText(materialTimePicker.getHour() + " : " + materialTimePicker.getMinute());
+                    }
+                });
+            }
+        });
+
+
     }
+
+//    public void onCreateContextMenu(ContextMenu menu, View v,
+//                                    ContextMenu.ContextMenuInfo menuInfo) {
+//        super.onCreateContextMenu(menu, v, menuInfo);
+//        MenuInflater inflater = getMenuInflater();
+//        inflater.inflate(R.menu.select_category, menu);
+//    }
+
+//    public boolean onContextItemSelected(MenuItem item) {
+//        AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo) item.getMenuInfo();
+//
+//    }
 
     private void registerBusiness(String firm_name, String email, String password, String firm_category,
                                   String addr, String o_time, String c_time) {

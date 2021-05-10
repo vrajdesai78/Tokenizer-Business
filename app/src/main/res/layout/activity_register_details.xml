@@ -4,15 +4,16 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/background"
-    tools:context=".MainActivity">
+    android:background="@drawable/signup_login_bg"
+    tools:context=".RegisterDetails"
+    android:padding="30dp">
 
     <LinearLayout
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
+        android:layout_marginTop="100sp"
         android:background="#00FFFFFF"
-        android:layout_marginTop="100sp">
+        android:orientation="vertical">
 
         <ImageView
             android:id="@+id/uploadProfile"
@@ -22,94 +23,123 @@
             android:layout_marginBottom="30dp"
             android:src="@drawable/imageupload" />
 
-
-        <Spinner
-            android:id="@+id/firmCategory"
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="60dp"
-            android:layout_marginTop="30dp"
-            android:layout_marginRight="50dp"
-            android:popupBackground="@color/white" />
+            android:orientation="vertical">
 
-        <EditText
-            android:id="@+id/address"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="70dp"
-            android:layout_marginTop="30dp"
-            android:layout_marginRight="70dp"
-            android:background="@drawable/corners"
-            android:textColorHint="#808080"
-            android:hint="Address"
-            android:inputType="text"
-            android:textColor="#000"
-            android:textSize="20dp" />
-        <TextView
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="-10dp"
-            android:layout_marginRight="70dp"
-            android:layout_marginLeft="70dp"
-            android:background="@drawable/lines"/>
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/menu"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Select Firm category"
+                app:boxCornerRadiusBottomEnd="10dp"
+                app:boxCornerRadiusBottomStart="10dp"
+                app:boxCornerRadiusTopEnd="10dp"
+                app:boxCornerRadiusTopStart="10dp">
+
+                <AutoCompleteTextView
+                    android:id="@+id/firmCategory"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="none" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/text_field_1"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:hint="Address"
+                android:inputType="text"
+                android:textColor="#000"
+                android:textSize="20dp"
+                app:boxCornerRadiusBottomEnd="10dp"
+                app:boxCornerRadiusBottomStart="10dp"
+                app:boxCornerRadiusTopEnd="10dp"
+                app:boxCornerRadiusTopStart="10dp"
+                app:boxStrokeColor="@color/black"
+                app:hintTextColor="@color/black">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/address"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/black" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/text_field_2"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:hint="Opening Time"
+                android:inputType="textEmailAddress"
+                android:textColor="#000"
+                android:textSize="20dp"
+                app:boxCornerRadiusBottomEnd="10dp"
+                app:boxCornerRadiusBottomStart="10dp"
+                app:boxCornerRadiusTopEnd="10dp"
+                app:boxCornerRadiusTopStart="10dp"
+                app:boxStrokeColor="@color/black"
+                app:hintTextColor="@color/black">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/oTime"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/black" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/text_field_3"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:hint="Closing Time"
+                android:inputType="time"
+                android:textColor="#000"
+                android:textSize="20dp"
+                app:boxCornerRadiusBottomEnd="10dp"
+                app:boxCornerRadiusBottomStart="10dp"
+                app:boxCornerRadiusTopEnd="10dp"
+                app:boxCornerRadiusTopStart="10dp"
+                app:boxStrokeColor="@color/black"
+                app:hintTextColor="@color/black">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/cTime"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/black" />
+
+            </com.google.android.material.textfield.TextInputLayout>
 
 
-        <EditText
-            android:id="@+id/oTime"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="70dp"
-            android:layout_marginTop="30dp"
-            android:layout_marginRight="70dp"
-            android:background="@drawable/corners"
-            android:hint="Opening Time"
-            android:inputType="time"
-            android:textColorHint="#808080"
-            android:textColor="#000"
-            android:textSize="20dp" />
-
-        <TextView
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="-10dp"
-            android:layout_marginRight="70dp"
-            android:layout_marginLeft="70dp"
-            android:background="@drawable/lines"/>
-
-        <EditText
-            android:id="@+id/cTime"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="70dp"
-            android:layout_marginTop="30dp"
-            android:layout_marginRight="70dp"
-            android:background="@drawable/corners"
-            android:hint="Closing Time"
-            android:textColorHint="#808080"
-            android:inputType="time"
-            android:textColor="#000"
-            android:textSize="20dp" />
-        <TextView
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="-10dp"
-            android:layout_marginRight="70dp"
-            android:layout_marginLeft="70dp"
-            android:background="@drawable/lines"/>
+        </LinearLayout>
 
         <Button
-            android:id="@+id/register_button"
+            android:id="@+id/nextButton"
+            style="@style/Widget.MaterialComponents.Button"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="100dp"
-            android:layout_marginTop="50dp"
-            android:layout_marginRight="100dp"
-            android:background="@drawable/button"
+            android:layout_marginTop="20dp"
+            android:background="@drawable/rounded_button"
             android:backgroundTint="@color/white"
-            android:text="register"
-            android:textColor="#000"
-            android:textSize="25dp" />
+            android:elevation="7dp"
+            android:text="Register"
+            android:textColor="@color/white"
+            android:textSize="30dp" />
 
     </LinearLayout>
+
+
 
 </RelativeLayout>
